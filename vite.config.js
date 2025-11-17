@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
+import replace from '@rollup/plugin-replace';
 import path from 'path';
 
 const alias = {
@@ -45,7 +46,13 @@ const alias = {
 };
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    replace({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+      preventAssignment: true,
+    }),
+    react(),
+  ],
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     alias,
